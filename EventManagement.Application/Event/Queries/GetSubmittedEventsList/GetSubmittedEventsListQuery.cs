@@ -1,6 +1,4 @@
-﻿// Copyright (C) TBC Bank. All Rights Reserved.
-
-using EventManagement.Application.Commmon.Models;
+﻿using EventManagement.Application.Commmon.Models;
 using MediatR;
 
 namespace EventManagement.Application.Event.Queries.GetSubmittedEventsList

@@ -1,0 +1,31 @@
+﻿@model Dictionary<string, int>
+
+@{
+    ViewData["Title"] = "Configuration Values";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Configuration Key</th>
+            <th>Value</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value | @Html.ActionLink("Edit", "Edit", new { key = item.Key })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

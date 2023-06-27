@@ -1,0 +1,64 @@
+﻿@using EventManagement.Domain.Entities;
+@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims;
+@using EventManagement.MVC.Infrastructure.Pager
+@inject SignInManager<User> signInManager;
+@inject UserManager<User> userManager;
+@model IEnumerable<EventViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+
+    Pager pager = new Pager();
+
+    int pgNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pgNo = pager.CurrentPage;
+    }
+}
+
+<h1>Event List</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <a asp-action="Create" class="btn btn-primary">Add New Event</a>
+}
+
+<partial name="_pagerPartial" model="@pager" />
+
+<div class="card-deck" style="display: flex; flex-wrap: wrap;">
+    @foreach (var _event in Model)
+    {
+        <div class="card m-3" style="min-width: 18rem; max-width:30.5%; width: calc(33.33% - 2rem);">
+            <img class="card-img-top imageThumbnail" src="@_event.PhotoPath" asp-append-version="true" />
+
+            <div class="card-body">
+                <h5 class="card-title">@_event.Name</h5>
+                <p class="card-text">Start Date: @_event.StartDate</p>
+                <p class="card-text">End Date: @_event.EndDate</p>
+            </div>
+
+            <div class="card-footer text-center">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Details" asp-route-id="@_event.Id" class="btn btn-info">Details</a>
+                    var user = await userManager.GetUserAsync(User);
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var userId = User.FindFirstValue("UserId");
+                        if (string.Equals(userId, _event.UserId) && _event.ModifiableTill > DateTime.Now)
+                        {
+                            <a asp-action="Edit" asp-route-id="@_event.Id" class="btn btn-warning">Edit</a>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<partial name="_pagerPartial" model="@pager" />

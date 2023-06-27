@@ -1,0 +1,36 @@
+﻿@model EventManagement.MVC.Infrastructure.Pager.Pager
+
+<div class="container">
+    @if (Model.TotalPages > 1)
+    {
+        <ul class="pagination justify-content-end">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link text-dark" asp-action="Index" asp-route-pg="1">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link text-dark" asp-action="Index" asp-route-pg="@(Model.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @for (var pg = Model.StartPage; pg <= Model.EndPage; pg++)
+            {
+                <li class="page-item">
+                    <a class="page-link @(pg == Model.CurrentPage ? "bg-dark text-white" :"text-dark")" asp-action="Index" asp-route-pg="@pg"> @pg  </a>
+                </li>
+            }
+
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link text-dark" asp-action="Index" asp-route-pg="@(Model.CurrentPage + 1)">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link text-dark" asp-action="Index" asp-route-pg="@(Model.TotalPages)">Last</a>
+                </li>
+            }
+
+        </ul>
+    }
+</div>
